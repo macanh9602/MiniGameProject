@@ -1,0 +1,2 @@
+Rubik1,2,3,4,5 - Random tiếng xoay rubik
+SmallApplauso - Tiếng vỗ tay khi hoàn thành xong khối rubik

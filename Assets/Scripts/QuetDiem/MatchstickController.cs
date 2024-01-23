@@ -9,7 +9,7 @@ namespace Scripts.QuetDiem
 
     public class MatchstickController : MonoBehaviour
     {
-        [SerializeField] float Zscreen;
+        //[SerializeField] float Zscreen;
         [SerializeField] Vector3 offset;
         [SerializeField] Transform targetToLook;
         [SerializeField] Transform mouseInWorld;
@@ -37,16 +37,16 @@ namespace Scripts.QuetDiem
         }
         private void Update()
         {
-            Zscreen = Camera.main.WorldToScreenPoint(transform.position).z;
-            offset = transform.position - getMouseInWorld();
+            //Zscreen = Extensions.getZScreen(transform);
+            offset = transform.position - Extensions.getMouseInWorld(transform);
         }
 
-        private Vector3 getMouseInWorld()
-        {
-            Vector3 mouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Zscreen);
+        //private Vector3 getMouseInWorld()
+        //{
+        //    Vector3 mouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Zscreen);
 
-            return Camera.main.ScreenToWorldPoint(mouse);
-        }
+        //    return Camera.main.ScreenToWorldPoint(mouse);
+        //}
 
         private void OnMouseDown()
         {
@@ -56,8 +56,8 @@ namespace Scripts.QuetDiem
 
         private void OnMouseDrag()
         {
-            newPos = getMouseInWorld() + offset;
-            mouseInWorld.position = getMouseInWorld();
+            newPos = Extensions.getMouseInWorld(transform) + offset;
+            mouseInWorld.position = Extensions.getMouseInWorld(transform);
             transform.LookAt(targetToLook);
             Vector3 direction = (posTopMatchStick.position - transform.position).normalized;
 
