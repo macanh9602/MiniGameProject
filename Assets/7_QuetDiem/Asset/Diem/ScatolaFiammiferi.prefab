@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6083394012554702274}
   - component: {fileID: 6083394011933961283}
   - component: {fileID: 6083394011967517756}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (8)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267171}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.62, z: -1.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961283
 MeshRenderer:
@@ -95,9 +95,9 @@ GameObject:
   - component: {fileID: 6083394011933961335}
   - component: {fileID: 6083394011967517744}
   - component: {fileID: 6083394011430596596}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: ScatolaFiammiferi
-  m_TagString: MatchBox
+  m_TagString: 
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,7 +109,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267200}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: -0.61, y: 0, z: 3.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -129,7 +128,8 @@ Transform:
   - {fileID: 6083394012554702330}
   - {fileID: 6083394012554702274}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961335
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -150,7 +150,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 92be40165005fa14db133d11e7c6e3c1, type: 2}
+  - {fileID: 2100000, guid: 044f8e6e8ebb459089752990b8364e2f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -188,17 +188,9 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267200}
   m_Material: {fileID: 13400000, guid: e5a272a907394707bba4a2ab461d2f87, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Size: {x: 13.19958, y: 2.52, z: 4.814544}
   m_Center: {x: 0.4028869, y: 1.26, z: 0.000000001371751}
 --- !u!1 &6083394012504267203
@@ -212,7 +204,7 @@ GameObject:
   - component: {fileID: 6083394012554702306}
   - component: {fileID: 6083394011933961328}
   - component: {fileID: 6083394011967517745}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (5)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -226,13 +218,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267203}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.81, z: -0.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961328
 MeshRenderer:
@@ -295,7 +287,7 @@ GameObject:
   - component: {fileID: 6083394012554702315}
   - component: {fileID: 6083394011933961332}
   - component: {fileID: 6083394011967517749}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (1)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -309,13 +301,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267204}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.37, z: 0.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961332
 MeshRenderer:
@@ -378,7 +370,7 @@ GameObject:
   - component: {fileID: 6083394012554702308}
   - component: {fileID: 6083394011933961333}
   - component: {fileID: 6083394011967517750}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (2)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -392,13 +384,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267205}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 2.04, z: 0.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961333
 MeshRenderer:
@@ -460,9 +452,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6083394012554702309}
   - component: {fileID: 6083394011430596602}
-  m_Layer: 8
+  m_Layer: 20
   m_Name: TriggerScintille
-  m_TagString: Untagged
+  m_TagString: 
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -474,13 +466,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267206}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -2.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6083394011430596602
 BoxCollider:
@@ -490,17 +482,9 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267206}
   m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
+  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Size: {x: 6, y: 1, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6083394012504267208
@@ -514,7 +498,7 @@ GameObject:
   - component: {fileID: 6083394012554702319}
   - component: {fileID: 6083394011933961339}
   - component: {fileID: 6083394011967517748}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ombra
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -528,13 +512,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267208}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961339
 MeshRenderer:
@@ -597,7 +581,7 @@ GameObject:
   - component: {fileID: 6083394012554702318}
   - component: {fileID: 6083394011933961338}
   - component: {fileID: 6083394011967517755}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ombra (2)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -611,13 +595,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267215}
-  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 0, z: 0}
   m_LocalScale: {x: 0.88744, y: 0.88744, z: 0.88744}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961338
 MeshRenderer:
@@ -680,7 +664,7 @@ GameObject:
   - component: {fileID: 6083394012554702321}
   - component: {fileID: 6083394011933961337}
   - component: {fileID: 6083394011967517754}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (4)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -694,13 +678,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267218}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 2.03, z: -0.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961337
 MeshRenderer:
@@ -763,7 +747,7 @@ GameObject:
   - component: {fileID: 6083394012554702335}
   - component: {fileID: 6083394011933961341}
   - component: {fileID: 6083394011967517758}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -777,13 +761,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267224}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.81, z: 1.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961341
 MeshRenderer:
@@ -846,7 +830,7 @@ GameObject:
   - component: {fileID: 6083394012554702328}
   - component: {fileID: 6083394011933961342}
   - component: {fileID: 6083394011967517759}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (3)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -860,13 +844,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267225}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.82, z: 0.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961342
 MeshRenderer:
@@ -929,7 +913,7 @@ GameObject:
   - component: {fileID: 6083394012554702330}
   - component: {fileID: 6083394011933961343}
   - component: {fileID: 6083394011967517752}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (7)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -943,13 +927,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267227}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 2.06, z: -1.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961343
 MeshRenderer:
@@ -1012,7 +996,7 @@ GameObject:
   - component: {fileID: 6083394012554702334}
   - component: {fileID: 6083394011933961340}
   - component: {fileID: 6083394011967517757}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fiammiferi (6)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -1026,13 +1010,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267231}
-  serializedVersion: 2
   m_LocalRotation: {x: 0.00000001490116, y: 0.00000001490116, z: -0.7071067, w: 0.7071069}
   m_LocalPosition: {x: 1.79, y: 1.46, z: -0.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961340
 MeshRenderer:
@@ -1095,7 +1079,7 @@ GameObject:
   - component: {fileID: 6083394012554702307}
   - component: {fileID: 6083394011933961329}
   - component: {fileID: 6083394011967517746}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ombra (1)
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -1109,13 +1093,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6083394012504267260}
-  serializedVersion: 2
   m_LocalRotation: {x: -0.0000001937151, y: 0.7071064, z: -0.7071072, w: 0.0000002235174}
   m_LocalPosition: {x: 0, y: 1.28, z: -2.401}
   m_LocalScale: {x: 0.77972, y: 1, z: 0.2944997}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6083394012554702311}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &6083394011933961329
 MeshRenderer:

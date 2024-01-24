@@ -46,9 +46,6 @@ namespace Scripts.BanhRang
 
         private void OnMouseUp()
         {
-            //posMouseDown = posMouseExcuted;
-            //posMouseDown = transform.parent.localPosition;
-            //posMouseExcuted = transform.parent.localPosition;
             isExcuting = false;
             isInitializing = false;
         }
