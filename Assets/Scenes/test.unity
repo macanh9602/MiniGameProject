@@ -404,6 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _queDiem: {fileID: 1571894137}
+  _posEnd: {fileID: 808149083}
 --- !u!1001 &763471661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -418,31 +419,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.8500004
+      value: -6.9100003
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.640003
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.3499994
+      value: 1.689995
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99677086
+      value: 0.99144167
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07707525
+      value: 0.07544818
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.022456707
+      value: 0.10623429
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0017364636
+      value: -0.008084373
       objectReference: {fileID: 0}
     - target: {fileID: 8231826800623724654, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -457,21 +458,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8817097749804807442, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
-      propertyPath: a
-      value: 
-      objectReference: {fileID: 1140294400}
-    - target: {fileID: 8817097749804807442, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
-      propertyPath: posEnd
-      value: 
-      objectReference: {fileID: 808149083}
-    - target: {fileID: 8817097749804807442, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
       propertyPath: _hopdiem
       value: 
       objectReference: {fileID: 491866368}
     - target: {fileID: 8817097749804807442, guid: d44c1c9d89e922240ad450db8b297597, type: 3}
-      propertyPath: targetLook
+      propertyPath: _QueDiemAnimator
       value: 
-      objectReference: {fileID: 1994529154}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

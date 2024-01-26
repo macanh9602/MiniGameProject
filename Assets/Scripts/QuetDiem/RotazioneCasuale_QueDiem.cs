@@ -17,9 +17,7 @@ namespace Scripts.QuetDiem
         [SerializeField] Vector3 posMouseStart;
         [SerializeField] Vector3 posMouseExcuted;
         Rigidbody rb;
-        [SerializeField] float speed = 0.5f;
         private Vector3 posStart;
-        [SerializeField] ParticleSystem effectUpdate;
         private float t;
         private Vector3 _hitPoint;
         public Vector3 _HitPoint => _hitPoint;
@@ -28,20 +26,24 @@ namespace Scripts.QuetDiem
 
         [SerializeField] HopDiem _hopdiem;
         [SerializeField] Transform _effExcuted;
-        [SerializeField] Transform Fire;
         [SerializeField] Animation _QueDiemAnim;
-        [SerializeField] Animator _QueDiemAnimator;
         [SerializeField] float z;
         private float tEff = 17;
         private bool PlayAnim = false;
-        [SerializeField] GameObject a;
+        private GameObject a;
         [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
         Vector3[] _arrBones;
         private Vector3 bonePosition;
-        [SerializeField] Transform posEnd;
-        // Start is called before the first frame update
+        private Transform posEnd;
+        private int countBones;
+        private float tFire = 0f;
+
         void Start()
         {
+            posEnd = GameObject.Find("a").transform;
+            a = GameObject.Find("a");
+            _hopdiem = GameObject.Find("ScatolaFiammiferi").GetComponent<HopDiem>();
+
             targetLook = _hopdiem.transform.position + new Vector3(0,0.5f,0);
             rb = GetComponent<Rigidbody>();
             posStart = transform.position;
@@ -66,11 +68,11 @@ namespace Scripts.QuetDiem
                             Quaternion.identity);
                         go.name = "bone[" + i + "]";
                         go.transform.parent = skinnedMeshRenderer.gameObject.transform;
-                        _arrBones[i] = skinnedMeshRenderer.bones[i].localPosition;
+                        _arrBones[i] = go.transform.localPosition;
                     }
                     for (int i = 0; i < _arrBones.Length; i++)
                     {
-                        Debug.Log(_arrBones[i]);
+                       // Debug.Log(_arrBones[i]);
                     }
                 }
                 else
@@ -84,20 +86,15 @@ namespace Scripts.QuetDiem
             }
         }
 
-        private int countBones;
-        private float tFire = 0f;
         private void _hopdiem_OnFire(object sender, System.EventArgs e)
         {
-            _effExcuted.gameObject.SetActive(true);
             if (!PlayAnim)
             {
                 _effExcuted.gameObject.SetActive(true);
-                //_QueDiemAnimator.speed = speedAnim;
                 _QueDiemAnim.Play();
-                //_effExcuted.transform.parent= skinnedMeshRenderer.gameObject.transform;
-                _effExcuted.transform.position = _arrBones[skinnedMeshRenderer.bones.Length - 1];
+                _effExcuted.transform.parent = skinnedMeshRenderer.gameObject.transform;
                 StartCoroutine(PlayAnimFire());
-                countBones = skinnedMeshRenderer.bones.Length - 1;
+                countBones = skinnedMeshRenderer.bones.Length-1;
                 PlayAnim = true;
             }
             if (tEff >= 0 )
@@ -105,33 +102,33 @@ namespace Scripts.QuetDiem
                 tFire += Time.deltaTime;
                 if (tFire > 0.5f && countBones >= 0 && tEff > 0)
                 {
-                    _effExcuted.transform.localPosition = _arrBones[countBones];
+                    _effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y ,0);
                     tFire = 0f;
                     countBones--;
                     tEff--;
                 }
             }
             if (countBones == 0)
-            {
-                _effExcuted.gameObject.SetActive(false);
-                transform.DOMove(posEnd.position, 2f).SetEase(Ease.Linear).OnComplete(() =>
-                {
-                    _hopdiem.setActive();
-                    Destroy(gameObject);
-
-
-                });
-
-                //Invoke("EndGame", 3f);
+            {              
+                StartCoroutine(EndGame());
             }
+        }
+
+        IEnumerator EndGame()
+        {
+            _effExcuted.gameObject.SetActive(false); //tat lua
+            transform.DOMove(posEnd.position, 1f).SetEase(Ease.Linear); //di chuyen
+            _hopdiem.setActiveFire(false); //dat bool lua bang false
+            yield return new WaitForSeconds(2f);
+            Destroy(gameObject);
+
         }
 
         IEnumerator PlayAnimFire()
         {
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.5f);
             _effExcuted.GetComponent<ParticleSystem>().Play();
         }
-
 
         private void OnDestroy()
         {
@@ -162,8 +159,6 @@ namespace Scripts.QuetDiem
             Vector3 posEdit = posMouseExcuted - offset;
             posEdit.x = Mathf.Clamp(posEdit.x, -10f, 0f);
             posEdit.z = Mathf.Clamp(posEdit.z, 0f, 3.8f);
-            //Vector3 v3 = (_hitPoint - transform.position).normalized;
-            ////rb.AddForce(v3 * speed);
             rb.MovePosition(new Vector3(posEdit.x, posStart.y, posEdit.z));
             if (posMouseExcuted.z > posMouseStart.z)
             {

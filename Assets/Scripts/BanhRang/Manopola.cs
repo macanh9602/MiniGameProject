@@ -14,13 +14,10 @@ namespace Scripts.BanhRang
         [SerializeField] Handle _handle;
         [SerializeField] Transform[] _arrGears;
         [SerializeField] float angle;
-        //[SerializeField] AudioSource _source;
-        //[SerializeField] AudioClip _clip;
         [SerializeField] float angularSpeed;
         [SerializeField] float tCooldown = 1.0f;
         [SerializeField] float zOffset;
         [SerializeField] Vector2 direction;
-        int a = 1;
         private float angle2;
         private float currentZangle;
         [SerializeField] float speed;

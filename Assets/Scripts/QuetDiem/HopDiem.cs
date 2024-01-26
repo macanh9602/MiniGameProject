@@ -12,24 +12,23 @@ namespace Scripts.QuetDiem
         private Vector3 m_Position;
         private Quaternion m_Rotation;
         [SerializeField] GameObject _effectStart;
-        [SerializeField] RotazioneCasuale_QueDiem _queDiem;
+        private RotazioneCasuale_QueDiem _queDiem;
         [SerializeField] Vector3 _posStartEffect;
         [SerializeField] Vector3 _startHit;
         [SerializeField] Vector3 _endHit;
         private float t;
         private float dis;
-        private bool isActiveFire = false;
-        private bool isActiveFrictionEffect = false;
+        [SerializeField] bool isActiveFire = false;
+        [SerializeField] bool isActiveFrictionEffect = false;
         public event EventHandler OnFire;
-
-        public bool getActive()
+        public bool getActiveFire()
         {
             return isActiveFire;
         }
 
-        public void setActive()
+        public void setActiveFire(bool isActiveFire)
         {
-            isActiveFire = !isActiveFire;
+            this.isActiveFire = isActiveFire;
         }
 
         public void setActiveFrictionEffect()
@@ -41,6 +40,7 @@ namespace Scripts.QuetDiem
         // Start is called before the first frame update
         void Start()
         {
+            _queDiem = FindObjectOfType<RotazioneCasuale_QueDiem>();
             m_Position = transform.position;
             m_Rotation = transform.rotation;
         }
@@ -48,6 +48,10 @@ namespace Scripts.QuetDiem
         // Update is called once per frame
         void Update()
         {
+            if (_queDiem == null)
+            {
+                _queDiem = FindObjectOfType<RotazioneCasuale_QueDiem>();
+            }
             transform.position = m_Position;
             transform.rotation = m_Rotation;
             isActiveEqualTrue(isActiveFire);
@@ -57,11 +61,9 @@ namespace Scripts.QuetDiem
         {
             if (collision.gameObject.tag == "QueDiem")
             {
-                //Debug.Log("hh");
-                //effect khi thoa man condition
-                //StartCoroutine(ActiveEffect(_queDiem._HitPoint));
                 _startHit = _queDiem._HitPoint;
                 t = Time.time;
+                Debug.Log("dd");
             }
         }
 
@@ -72,43 +74,30 @@ namespace Scripts.QuetDiem
                 _endHit = _queDiem._HitPoint;
                 //quang duong
                 dis = Vector3.Distance(_startHit, _endHit);
-                if (Time.time - t > 1f && dis > 0.5f && !isActiveFire)
-                {                  
+                if (Time.time - t > 1f && dis > 0.5f && isActiveFire == false)
+                {
+                    isActiveFrictionEffect = true;
                     isActiveFire = true;
                 }
             }
         }
 
-        private void isActiveEqualTrue(bool active)
+        private void isActiveEqualTrue(bool activeFire)
         {
-            if(active)
+            if (activeFire)
             {
                 OnFire?.Invoke(this, EventArgs.Empty);
-                if (!isActiveFrictionEffect)
-                {
-                    //StartCoroutine(ActiveEffect(_queDiem._HitPoint));
-                    _effectStart.SetActive(true);
-                    _effectStart.transform.position = _queDiem._HitPoint;
-                    _effectStart.GetComponent<ParticleSystem>().Play();
-                    isActiveFrictionEffect = true;
-                }                              
+
             }
-            else
+            if(isActiveFrictionEffect)
             {
-                return;
+                _effectStart.SetActive(true);
+                _effectStart.transform.position = _queDiem._HitPoint;
+                _effectStart.GetComponent<ParticleSystem>().Play();
+                isActiveFrictionEffect = false;
             }
         }
 
-        IEnumerator ActiveEffect(Vector3 pos)
-        {
-            isActiveFrictionEffect = true;
-            _effectStart.SetActive(true);
-            _effectStart.transform.position = pos;
-            _effectStart.GetComponent<ParticleSystem>().Play();
-            yield return new WaitForSeconds(.3f);
-            isActiveFrictionEffect = false;
-            _effectStart.SetActive(false);
-        }
 
     }
 }

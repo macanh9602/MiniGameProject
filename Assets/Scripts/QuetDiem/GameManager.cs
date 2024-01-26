@@ -7,7 +7,7 @@ namespace Scripts.QuetDiem{
     
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] Transform _queDiem;
+        [SerializeField] Transform _posEnd;
         // Start is called before the first frame update
         void Start()
         {
@@ -17,13 +17,26 @@ namespace Scripts.QuetDiem{
         // Update is called once per frame
         void Update()
         {
+            AddNewQueDiem();
+
+        }
+
+        private void AddNewQueDiem()
+        {
             GameObject[] go = GameObject.FindGameObjectsWithTag("QueDiem");
-            if(go.Length == 0)
+            if (go.Length == 0)
             {
                 Transform prfQueDiem = Resources.Load<Transform>("RotazioneCasuale");
-                Transform QueDiem = Instantiate(prfQueDiem, new Vector3(-4.8499999f, 1.63999999f, 2.3499999f), Quaternion.identity);
+                Transform _queDiem = Instantiate(prfQueDiem, _posEnd.position, Quaternion.identity);
+
+                //Transform QueDiem = Instantiate(prfQueDiem, new Vector3(-6.91000032f, 1.75f, 1.68999505f), Quaternion.identity);
+                _queDiem.eulerAngles = new Vector3(8.70358086f, 12.231967f, 0f);
+
+                _queDiem.DOMove(new Vector3(-6.91000032f, 1.75f, 1.68999505f), 1f);
+
+
             }
-            
+
         }
     }
     
