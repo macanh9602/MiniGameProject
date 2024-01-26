@@ -20,7 +20,10 @@ namespace Scripts.QuetDiem
         private float dis;
         [SerializeField] bool isActiveFire = false;
         [SerializeField] bool isActiveFrictionEffect = false;
+        [SerializeField] AudioSource _audioSource;
+
         public event EventHandler OnFire;
+
         public bool getActiveFire()
         {
             return isActiveFire;
@@ -40,6 +43,7 @@ namespace Scripts.QuetDiem
         // Start is called before the first frame update
         void Start()
         {
+            _audioSource.clip = SoundManager.instance.sfregatoClip;
             _queDiem = FindObjectOfType<RotazioneCasuale_QueDiem>();
             m_Position = transform.position;
             m_Rotation = transform.rotation;
@@ -63,22 +67,63 @@ namespace Scripts.QuetDiem
             {
                 _startHit = _queDiem._HitPoint;
                 t = Time.time;
-                Debug.Log("dd");
             }
         }
 
+        private bool soundFriction = false;
         private void OnCollisionStay(Collision collision)
         {
             if (collision.gameObject.tag == "QueDiem")
             {
+                // Nếu vận tốc theo trục y (lên xuống) lớn hơn một giá trị nhỏ, đó có thể là di chuyển
+                //if (Mathf.Abs(_queDiem.getLocalVelocity().x) > 1.2f)
+                //{
+                //    // Nếu không phát âm thanh, thì phát âm thanh
+                //    if (!_audioSource.isPlaying)
+                //    {
+                //        _audioSource.Play();
+                //        Debug.Log("halo");
+                //    }
+                //    soundFriction = true;
+                //}
+                //else
+                //{
+                //    // Nếu không di chuyển nữa, ngừng phát âm thanh
+                //    if (_audioSource.isPlaying && soundFriction)
+                //    {
+                //        _audioSource.Stop();
+                //        soundFriction = false;
+                //    }
+                //}
+                //logic bat anim lua , anime friction
                 _endHit = _queDiem._HitPoint;
-                //quang duong
                 dis = Vector3.Distance(_startHit, _endHit);
-                if (Time.time - t > 1f && dis > 0.5f && isActiveFire == false)
+                if (Time.time - t > 1f && dis > 0.6f && !isActiveFire)
                 {
                     isActiveFrictionEffect = true;
                     isActiveFire = true;
+                    soundFriction = false;
+                    _audioSource.Stop();
                 }
+                if( dis > 0.3f && dis < 0.6f)
+                {
+                    if (!_audioSource.isPlaying)
+                    {
+                        _audioSource.Play();
+                        Debug.Log("halo");
+                    }
+                    soundFriction = true;
+
+                }
+            }
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            if(collision.gameObject.tag == "QueDiem")
+            {
+                //soundFriction = false;
+                _audioSource.Stop();
             }
         }
 

@@ -21,6 +21,7 @@ namespace Scripts.BanhRang
         private float angle2;
         private float currentZangle;
         [SerializeField] float speed;
+        [SerializeField] AudioSource _audioSource;
 
         private void Start()
         {
@@ -42,10 +43,14 @@ namespace Scripts.BanhRang
                 //goc xoay
                 angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 RotateByPos();
+                if(!_audioSource.isPlaying)
+                {
+                    _audioSource.Play();
+                }
             }
             else
             {
-                //_source.Stop();
+                _audioSource.Stop();
             }
         }
 

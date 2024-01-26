@@ -26,6 +26,7 @@ namespace Scripts.QuetDiem
 
         [SerializeField] HopDiem _hopdiem;
         [SerializeField] Transform _effExcuted;
+        [SerializeField] Transform _light;
         [SerializeField] Animation _QueDiemAnim;
         [SerializeField] float z;
         private float tEff = 17;
@@ -37,9 +38,12 @@ namespace Scripts.QuetDiem
         private Transform posEnd;
         private int countBones;
         private float tFire = 0f;
+        Vector3 localVelocity;
+        [SerializeField] AudioSource audioSource;
 
         void Start()
         {
+            audioSource.clip = SoundManager.instance.bruciandoClip;
             posEnd = GameObject.Find("a").transform;
             a = GameObject.Find("a");
             _hopdiem = GameObject.Find("ScatolaFiammiferi").GetComponent<HopDiem>();
@@ -90,11 +94,14 @@ namespace Scripts.QuetDiem
         {
             if (!PlayAnim)
             {
+                audioSource.PlayOneShot(SoundManager.instance.accesoClip.GetRandomClip());
                 _effExcuted.gameObject.SetActive(true);
+                _light.gameObject.SetActive(true);
                 _QueDiemAnim.Play();
                 _effExcuted.transform.parent = skinnedMeshRenderer.gameObject.transform;
                 StartCoroutine(PlayAnimFire());
                 countBones = skinnedMeshRenderer.bones.Length-1;
+                _effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y, 0);
                 PlayAnim = true;
             }
             if (tEff >= 0 )
@@ -102,14 +109,20 @@ namespace Scripts.QuetDiem
                 tFire += Time.deltaTime;
                 if (tFire > 0.5f && countBones >= 0 && tEff > 0)
                 {
-                    _effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y ,0);
+                    //_effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y ,0);
+                    _effExcuted.transform.DOLocalMove(new Vector3(0, _arrBones[countBones].y, 0),0.5f);
+                    _light.transform.localPosition = _effExcuted.transform.localPosition + new Vector3(0,0,-1);
                     tFire = 0f;
                     countBones--;
                     tEff--;
                 }
             }
             if (countBones == 0)
-            {              
+            {      
+                if(audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }              
                 StartCoroutine(EndGame());
             }
         }
@@ -117,6 +130,7 @@ namespace Scripts.QuetDiem
         IEnumerator EndGame()
         {
             _effExcuted.gameObject.SetActive(false); //tat lua
+            _light.gameObject.SetActive(false);
             transform.DOMove(posEnd.position, 1f).SetEase(Ease.Linear); //di chuyen
             _hopdiem.setActiveFire(false); //dat bool lua bang false
             yield return new WaitForSeconds(2f);
@@ -128,6 +142,9 @@ namespace Scripts.QuetDiem
         {
             yield return new WaitForSeconds(0.5f);
             _effExcuted.GetComponent<ParticleSystem>().Play();
+            audioSource.loop = true;
+            audioSource.Play();
+            
         }
 
         private void OnDestroy()
@@ -143,6 +160,12 @@ namespace Scripts.QuetDiem
                 _hitPoint = hit.point;
             }
             transform.LookAt(_hitPoint);
+            
+        }
+
+        public Vector3 getLocalVelocity()
+        {
+            return localVelocity;
         }
 
         private void OnMouseDown()
@@ -158,18 +181,22 @@ namespace Scripts.QuetDiem
             posMouseExcuted = Extensions.getMouseInWorld(transform);
             Vector3 posEdit = posMouseExcuted - offset;
             posEdit.x = Mathf.Clamp(posEdit.x, -10f, 0f);
-            posEdit.z = Mathf.Clamp(posEdit.z, 0f, 3.8f);
+            posEdit.z = Mathf.Clamp(posEdit.z, 0f, 3.9f);
             rb.MovePosition(new Vector3(posEdit.x, posStart.y, posEdit.z));
             if (posMouseExcuted.z > posMouseStart.z)
             {
                 float distance = posMouseExcuted.z - posMouseStart.z;
                 rb.AddForce(Vector3.forward * 5f);
             }
+            localVelocity = transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity);
+            Debug.Log(getLocalVelocity().x);
         }
+
 
         private void OnMouseExit()
         {
             rb.isKinematic = true;
+            localVelocity = Vector3.zero;
         }
     }
 }
