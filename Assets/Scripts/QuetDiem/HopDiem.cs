@@ -21,7 +21,7 @@ namespace Scripts.QuetDiem
         [SerializeField] bool isActiveFire = false;
         [SerializeField] bool isActiveFrictionEffect = false;
         [SerializeField] AudioSource _audioSource;
-
+        private bool soundFriction = false;
         public event EventHandler OnFire;
 
         public bool getActiveFire()
@@ -70,7 +70,7 @@ namespace Scripts.QuetDiem
             }
         }
 
-        private bool soundFriction = false;
+
         private void OnCollisionStay(Collision collision)
         {
             if (collision.gameObject.tag == "QueDiem")
