@@ -1,27 +1,36 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-//kha nang reset sai nen small cube bi destroy khi goi
-//loi khi cap nhat vi tri trong mang
-
-//check phim a : doc mang va game object cuar nos
+//xoay da gap van de
 namespace Scripts.Rubik
 {
 
     public class BigCube : MonoBehaviour
     {
-        public GameObject[,,] smallCube;
-        public GameObject[] _startCube;
-        private float rotationTime = 0.5f;
-        public bool currentlyRotate = false;
+        [SerializeField] GameObject[,,] smallCube;
+        private GameObject[,,] perfectCube;
+        [SerializeField] GameObject[] _startCube;
+        [SerializeField] bool currentlyRotate = false;
+        [SerializeField] SoundManager soundManager;
+        private float rotationTime = 0.1f;
+        private AudioSource audioSource;
+        [SerializeField] bool IsScrambling = false;
+        [SerializeField] bool isWin = true;
+        public bool IsWin => isWin;
+        public bool CurrentlyRotate => currentlyRotate;
+        public Action OnGameEnd;
         // Start is called before the first frame update
         private void Awake()
         {
-            int i = 0;
+            audioSource = GetComponent<AudioSource>();
             smallCube = new GameObject[3, 3, 3];
+            perfectCube = new GameObject[3, 3, 3];
+            int i = 0;
             for (int z = 0; z < 3; z++)
             {
                 for (int y = 0; y < 3; y++)
@@ -29,31 +38,17 @@ namespace Scripts.Rubik
                     for (int x = 0; x < 3; x++)
                     {
                         smallCube[x, y, z] = _startCube[i];
-                        //_startCube[i].gameObject.name = "cube[" + x.ToString() + "," + y.ToString() + "," + z.ToString() + "]";
-                        //Debug.Log("smallCube" + "[" + x + "," + y + "," + z + "] =>" + smallCube[x, y, z].transform.position);
+                        //perfectCube[x,y,z] = smallCube[x,y,z];
                         i++;
                     }
                 }
             }
+            perfectCube = smallCube;
         }
-
         // Update is called once per frame
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("halo");
-                for (int z = 0; z < 3; z++)
-                {
-                    for (int y = 0; y < 3; y++)
-                    {
-                        for (int x = 0; x < 3; x++)
-                        {
-                            Debug.Log("smallCube" + "[" + x + "," + y + "," + z + "] :" + smallCube[x, y, z].name);
-                        }
-                    }
-                }
-            }
+            #region check missing object
             //for (int z = 0; z < 3; z++)
             //{
             //    for (int y = 0; y < 3; y++)
@@ -67,15 +62,23 @@ namespace Scripts.Rubik
             //        }
             //    }
             //}
+            #endregion
         }
 
         public IEnumerator RotateAlongZ(float angle, int rotationIndex)
         {
+            if(!audioSource.isPlaying)
+            {
+                audioSource.clip = soundManager.SoundRotate.getRandomAudioClip();
+                audioSource.Play();
+            }
+            Debug.Log(angle + ", " + rotationIndex);    
             if (!currentlyRotate)
             {
                 currentlyRotate = true;
                 Debug.Log("haloZ");
                 GameObject newRotation = new GameObject();
+                //newRotation.transform.parent = transform;
                 newRotation.transform.position = new Vector3(0f, 0f, 0f);
                 float elapsedTime = 0;
 
@@ -90,7 +93,7 @@ namespace Scripts.Rubik
                 }
 
                 // xoay
-                Quaternion quaternion = Quaternion.Euler(0f, 0f,Mathf.RoundToInt(angle));
+                Quaternion quaternion = Quaternion.Euler(0f, 0f, Mathf.RoundToInt(angle));
                 while (elapsedTime < rotationTime)
                 {
                     newRotation.transform.rotation = Quaternion.Lerp(newRotation.transform.rotation, quaternion, (elapsedTime / rotationTime));
@@ -109,15 +112,23 @@ namespace Scripts.Rubik
                 }
 
                 smallCube = ResetPositionAfterRotation();
+                audioSource.Stop();
+                CheckWin();
                 Destroy(newRotation);
                 currentlyRotate = false;
-
+                
             }
 
         }
 
         public IEnumerator RotateAlongY(float angle, int rotationIndex)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = soundManager.SoundRotate.getRandomAudioClip();
+                audioSource.Play();
+            }
+            Debug.Log(angle + ", " + rotationIndex);
             if (!currentlyRotate)
             {
                 currentlyRotate = true;
@@ -165,6 +176,8 @@ namespace Scripts.Rubik
                     }
                 }
                 smallCube = ResetPositionAfterRotation();
+                audioSource.Stop();
+                CheckWin();
                 Destroy(newRotation);
                 currentlyRotate = false;
             }
@@ -172,11 +185,18 @@ namespace Scripts.Rubik
 
         public IEnumerator RotateAlongX(float angle, int rotationIndex)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = soundManager.SoundRotate.getRandomAudioClip();
+                audioSource.Play();
+            }
+            Debug.Log(angle + ", " + rotationIndex);
             if (!currentlyRotate)
             {
                 currentlyRotate = true;
                 Debug.Log("haloX");
                 GameObject newRotation = new GameObject();
+                //newRotation.transform.parent = transform;
                 newRotation.transform.position = new Vector3(0f, 0f, 0f);
                 float elapsedTime = 0;
 
@@ -218,9 +238,48 @@ namespace Scripts.Rubik
                     }
                 }
                 smallCube = ResetPositionAfterRotation();
+                audioSource.Stop();
+                CheckWin();
                 Destroy(newRotation);
                 currentlyRotate = false;
             }
+        }
+        private void CheckWin()
+        {
+            isWin = true;
+            //check win
+            if (!IsScrambling )
+            {
+                for (int z = 0; z < 3; z++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        for (int x = 0; x < 3; x++)
+                        {
+                            if (smallCube[x,y,z] != perfectCube[x,y,z])
+                            {
+                                isWin = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+                if (isWin)
+                {
+                    StartCoroutine(EndGame());            
+                }
+
+            }
+        }
+        IEnumerator EndGame()
+        {
+            audioSource.clip = soundManager.SoundWin;
+            audioSource.loop = true;
+            audioSource.Play();
+            yield return new WaitForSeconds(2f);
+            audioSource.loop = false;
+            audioSource.Stop();
+            OnGameEnd?.Invoke();
         }
         private GameObject[,,] ResetPositionAfterRotation() // bug 1 số phần tử mảng bị missing
         {
@@ -254,21 +313,38 @@ namespace Scripts.Rubik
                     }
                 }
             }
-            //for(int x = 0;x < 3; x++)
-            //{
-            //    for(int y = 0;y < 3; y++)
-            //    {
-            //        for( int z = 0;z < 3;z++)
-            //        {
-            //            if (newSmallCubes[x, y, z] == null)
-            //            {
-            //                Debug.LogWarning("missing object");
-            //                newSmallCubes = ResetPositionAfterRotation();
-            //            }
-            //        }
-            //    }
-            //}
             return newSmallCubes;
+        }
+
+        public IEnumerator ScrambleCube(int scrambleTimes, float scrambleRotationTime)
+        {
+            IsScrambling = true;
+            float oldRotationTime = rotationTime;
+            rotationTime = scrambleRotationTime;
+
+            for (int i = 0; i < scrambleTimes; i++)
+            {
+                int rotationType = UnityEngine.Random.Range(0, 3);
+                int rotationIndex = UnityEngine.Random.Range(0, 3);
+                int rotationAngle = UnityEngine.Random.Range(-1, 1) < 0 ? -90 : 90;
+                switch (rotationType)
+                {
+                    case 0:
+                        yield return StartCoroutine(RotateAlongX(rotationAngle, rotationIndex));
+                        break;
+                    case 1:
+                        yield return StartCoroutine(RotateAlongY(rotationAngle, rotationIndex));
+                        break;
+                    case 2:
+                        yield return StartCoroutine(RotateAlongZ(rotationAngle, rotationIndex));
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            rotationTime = oldRotationTime;
+            IsScrambling = false;
         }
     }
 

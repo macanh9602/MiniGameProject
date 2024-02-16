@@ -22,6 +22,7 @@ namespace Scripts.Rubik
         private LayerMask layerMask;
         [SerializeField] private BigCube _bigCube;
         private bool CheckOnce = false;
+        [SerializeField] bool _isTouchCube = false;
         // Start is called before the first frame update
         void Start()
         {
@@ -32,22 +33,14 @@ namespace Scripts.Rubik
         // Update is called once per frame
         void Update()
         {
-
             if (Input.touchCount > 0)
             {
-                //Debug.Log(GameObject.FindGameObjectsWithTag("halo").Length);
                 Touch _touch = Input.GetTouch(0);
-                //ray
                 Ray _rayTouchCube = Camera.main.ScreenPointToRay(_touch.position);
                 RaycastHit _hitCube;
-                bool _isTouchCube = false;
                 if (Physics.Raycast(_rayTouchCube, out _hitCube))
                 {
                     _isTouchCube = true;
-                }
-                else
-                {
-                    _isTouchCube = false;
                 }
                 if (Input.touchCount == 1 && _isTouchCube)
                 {
@@ -67,18 +60,20 @@ namespace Scripts.Rubik
                         case TouchPhase.Moved:
                             Ray rayMoved = Camera.main.ScreenPointToRay(Input.mousePosition);
                             RaycastHit hitMoved;
+
                             if (Physics.Raycast(rayMoved, out hitMoved, 100, layerMask))
                             {
                                 secondHitNormal = hitMoved.normal;
                                 secondHitCenter = hitMoved.transform.gameObject.GetComponent<Renderer>().bounds.center;
                                 secondHit = hitMoved.transform.parent.gameObject;
                             }
-                            if (secondHit != firstHit && !CheckOnce)
+
+                            if (firstHitCenter != secondHitCenter && !CheckOnce)
                             {
                                 Vector3 move = secondHitCenter - firstHitCenter;
                                 //Debug.Log(move.normalized);
                                 //accept to rotate
-                                if (!_bigCube.currentlyRotate)
+                                if (!_bigCube.CurrentlyRotate)
                                 {
                                     DoRotation(move);
 
@@ -88,6 +83,7 @@ namespace Scripts.Rubik
                             break;
                         case TouchPhase.Ended:
                             CheckOnce = false;
+                            _isTouchCube = false;
                             break;
                         default:
                             break;
@@ -98,7 +94,7 @@ namespace Scripts.Rubik
                 }
                 else
                 {
-                    //Debug.Log("halo");
+                    #region <--- rotateCamera --->
                     // Operate the camera orbit movement
                     localRotation.x += Input.touches[0].deltaPosition.x;
                     localRotation.y -= Input.touches[0].deltaPosition.y;
@@ -107,7 +103,7 @@ namespace Scripts.Rubik
                     Quaternion targetLocation = Quaternion.Euler(localRotation.y, localRotation.x, 0f);
                     //Debug.Log(targetLocation + " | " + localRotation.y + " | " + localRotation.x);
                     this.cameraPivot.rotation = Quaternion.Slerp(this.cameraPivot.rotation, targetLocation, Time.deltaTime * orbitDampening);
-
+                    #endregion
                 }
             }
 
@@ -120,15 +116,15 @@ namespace Scripts.Rubik
             {
                 case 'Y':
                     sum = new Vector3(Mathf.Abs(sum.x), Mathf.Abs(direction.y), Mathf.Abs(sum.z));
-                    Debug.LogWarning(sum);
+                    //Debug.LogWarning(sum);
                     break;
                 case 'Z':
                     sum = new Vector3(Mathf.Abs(sum.x), Mathf.Abs(sum.y), Mathf.Abs(direction.z));
-                    Debug.LogWarning(sum);
+                    //Debug.LogWarning(sum);
                     break;
                 case 'X':
                     sum = new Vector3(Mathf.Abs(direction.x), Mathf.Abs(sum.y), Mathf.Abs(sum.z));
-                    Debug.LogWarning(sum);
+                    //Debug.LogWarning(sum);
                     break;
                 default:
                     return false;
@@ -137,44 +133,115 @@ namespace Scripts.Rubik
             return _faker == Vector3.one;
         }
 
+        private bool CheckSum2(Vector3 normal1 , Vector3 normal2 , Vector3 vectorBoSung , char index)
+        {
+            Vector3 sum = normal1 + vectorBoSung;
+            switch(index)
+            {
+                case 'Y':
+                    sum = new Vector3(Mathf.Abs(sum.x), Mathf.Abs(normal2.y), Mathf.Abs(sum.z));
+                    break;
+                case 'X':
+                    sum = new Vector3(Mathf.Abs(normal2.x), Mathf.Abs(sum.y), Mathf.Abs(sum.z));
+                    break;
+                case 'Z':
+                    sum = new Vector3(Mathf.Abs(sum.x), Mathf.Abs(sum.y), Mathf.Abs(normal2.z));
+                    break;
+                default: return false;
+            }
+            return sum == Vector3.one;
+        }
+
         private void DoRotation(Vector3 move)
         {
-            if (CheckSum(firstHitNormal, move, new Vector3(0, 0, 1), 'Y'))
+            //check th cung 1 ben mat 
+            if(firstHitNormal == secondHitNormal)
             {
-                StartCoroutine(_bigCube.RotateAlongZ(firstHitNormal.x * move.y * 90, Mathf.RoundToInt(firstHitCenter.z + 1)));
-                Debug.Log("1nd: First hit " + firstHitNormal + " | move: " + move);
-            }
-            else if (CheckSum(firstHitNormal, move, new Vector3(0, 1, 0), 'Z'))
-            {
-                StartCoroutine(_bigCube.RotateAlongY(firstHitNormal.x * move.z * -90, Mathf.RoundToInt(firstHitCenter.y + 1)));
-                Debug.Log("2nd: Second hit " + firstHitNormal + " | move: " + move);
-            }
-            else if (CheckSum(firstHitNormal, move, new Vector3(1, 0, 0), 'Y'))
-            {
-                Debug.LogWarning("haha");
-                StartCoroutine(_bigCube.RotateAlongX(firstHitNormal.z * move.y * -90, Mathf.RoundToInt(firstHitCenter.x + 1)));
-                Debug.Log("3nd: Third hit " + firstHitNormal + " | move: " + move);
-            }
-            else if (CheckSum(firstHitNormal, move, new Vector3(0, 1, 0), 'X'))
-            {
-                Debug.LogWarning("haha");
-                StartCoroutine(_bigCube.RotateAlongY(firstHitNormal.z * move.x * 90, Mathf.RoundToInt(firstHitCenter.y + 1)));
-                Debug.Log("4nd: Four hit " + firstHitNormal + " | move: " + move);
-            }
-            else if (CheckSum(firstHitNormal, move, new Vector3(1, 0, 0), 'Z'))
-            {
-                StartCoroutine(_bigCube.RotateAlongX(firstHitNormal.y * move.z * 90, Mathf.RoundToInt(firstHitCenter.x + 1)));
-                Debug.Log("5nd: Four hit " + firstHitNormal + " | move: " + move);
-            }
-            else if (CheckSum(firstHitNormal, move, new Vector3(0, 0, 1), 'X'))
-            {
-                StartCoroutine(_bigCube.RotateAlongZ(firstHitNormal.y * move.x * -90, Mathf.RoundToInt(firstHitCenter.z + 1)));
-                Debug.Log("6nd: Four hit " + firstHitNormal + " | move: " + move);
+                #region <--- logic1face --->
+                if (CheckSum(firstHitNormal, move, new Vector3(0, 0, 1), 'Y'))
+                {
+                    int x = firstHitNormal.x > 0 ? 1 : -1;
+                    int y = move.y > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongZ(x * y * 90, Mathf.RoundToInt(firstHitCenter.z + 1)));
+                    Debug.Log("1nd: First hit " + firstHitNormal + " | move: " + move);
+                }
+                else if (CheckSum(firstHitNormal, move, new Vector3(0, 1, 0), 'Z'))
+                {
+                    int x = firstHitNormal.x > 0 ? 1 : -1;
+                    int z = move.z > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongY(x * z * -90, Mathf.RoundToInt(firstHitCenter.y + 1)));
+                    Debug.Log("2nd: Second hit " + firstHitNormal + " | move: " + move);
+                }
+                else if (CheckSum(firstHitNormal, move, new Vector3(1, 0, 0), 'Y'))
+                {
+                    int z = firstHitNormal.z > 0 ? 1 : -1;
+                    int y = move.y > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongX(z * y * -90, Mathf.RoundToInt(firstHitCenter.x + 1)));
+                    Debug.Log("3nd: Third hit " + firstHitNormal + " | move: " + move);
+                }
+                else if (CheckSum(firstHitNormal, move, new Vector3(0, 1, 0), 'X'))
+                {
+                    int z = firstHitNormal.z > 0 ? 1 : -1;
+                    int x = move.x > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongY(z * x * 90, Mathf.RoundToInt(firstHitCenter.y + 1)));
+                    Debug.Log("4nd: Four hit " + firstHitNormal + " | move: " + move);
+                }
+                else if (CheckSum(firstHitNormal, move, new Vector3(1, 0, 0), 'Z'))
+                {
+                    int y = firstHitNormal.y > 0 ? 1 : -1;
+                    int z = move.z > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongX(y * z * 90, Mathf.RoundToInt(firstHitCenter.x + 1)));
+                    Debug.Log("5nd: Four hit " + firstHitNormal + " | move: " + move);
+                }
+                else if (CheckSum(firstHitNormal, move, new Vector3(0, 0, 1), 'X'))
+                {
+                    int y = firstHitNormal.y > 0 ? 1 : -1;
+                    int x = move.x > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongZ(y * x * -90, Mathf.RoundToInt(firstHitCenter.z + 1)));
+                    Debug.Log("6nd: Four hit " + firstHitNormal + " | move: " + move);
+                }
+                #endregion
             }
             else
             {
-                Debug.Log("sai");
-                Debug.LogWarning("7nd: Four hit " + firstHitNormal + " | move: " + move);
+                //char theo secondHitnormal
+                if(CheckSum2(firstHitNormal , secondHitNormal , new Vector3(1,0,0) , 'Y'))
+                {
+                    int z = firstHitNormal.z > 0 ? 1 : -1;
+                    int y = secondHitNormal.y > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongX( -z * y * 90, Mathf.RoundToInt(firstHitCenter.x + 1)));
+                }
+                else if (CheckSum2(firstHitNormal, secondHitNormal, new Vector3(0, 0, 1), 'Y'))
+                {
+                    int x = firstHitNormal.x > 0 ? 1 : -1;
+                    int y = secondHitNormal.y > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongZ( x * y * 90, Mathf.RoundToInt(firstHitCenter.z + 1)));
+                }
+                else if (CheckSum2(firstHitNormal, secondHitNormal, new Vector3(0, 1, 0), 'X'))
+                {
+                    int z = firstHitNormal.z > 0 ? 1 : -1;
+                    int x = secondHitNormal.x > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongY(x * z * 90, Mathf.RoundToInt(firstHitCenter.y + 1)));
+
+                }
+                else if (CheckSum2(firstHitNormal, secondHitNormal, new Vector3(0, 0, 1), 'X'))
+                {
+                    int y = firstHitNormal.y > 0 ? 1 : -1;
+                    int x = secondHitNormal.x > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongZ(y * x * -90, Mathf.RoundToInt(firstHitCenter.z + 1)));
+                }
+                else if (CheckSum2(firstHitNormal, secondHitNormal, new Vector3(0, 1 , 0), 'Z'))
+                {
+                    int x = firstHitNormal.x > 0 ? 1 : -1;
+                    int z = secondHitNormal.z > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongY(x * z * -90, Mathf.RoundToInt(firstHitCenter.y + 1)));
+                }
+                else if (CheckSum2(firstHitNormal, secondHitNormal, new Vector3(1, 0, 0), 'Z'))
+                {
+                    int y = firstHitNormal.y > 0 ? 1 : -1;
+                    int z = secondHitNormal.z > 0 ? 1 : -1;
+                    StartCoroutine(_bigCube.RotateAlongX(y * z * 90, Mathf.RoundToInt(firstHitCenter.x + 1)));
+                }
             }
         }
     }

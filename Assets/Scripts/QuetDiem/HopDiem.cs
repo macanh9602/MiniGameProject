@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 
 namespace Scripts.QuetDiem
 {
@@ -21,7 +21,7 @@ namespace Scripts.QuetDiem
         [SerializeField] bool isActiveFire = false;
         [SerializeField] bool isActiveFrictionEffect = false;
         [SerializeField] AudioSource _audioSource;
-        private bool soundFriction = false;
+        ///private bool soundFriction = false;
         public event EventHandler OnFire;
 
         public bool getActiveFire()
@@ -102,7 +102,7 @@ namespace Scripts.QuetDiem
                 {
                     isActiveFrictionEffect = true;
                     isActiveFire = true;
-                    soundFriction = false;
+                    //soundFriction = false;
                     _audioSource.Stop();
                 }
                 if( dis > 0.3f && dis < 0.6f)
@@ -112,7 +112,7 @@ namespace Scripts.QuetDiem
                         _audioSource.Play();
                         Debug.Log("halo");
                     }
-                    soundFriction = true;
+                    //soundFriction = true;
 
                 }
             }
