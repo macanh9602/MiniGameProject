@@ -1631,7 +1631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bigCube: {fileID: 1358414403}
-  ScrambleTimes: 2
+  ScrambleTimes: 15
   speedScramble: 0.1
 --- !u!4 &1731120037
 Transform:
