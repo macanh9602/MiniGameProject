@@ -29,8 +29,8 @@ namespace Scripts.QuetDiem
         [SerializeField] Transform _light;
         [SerializeField] Animation _QueDiemAnim;
         [SerializeField] float z;
-        private float tEff = 17;
-        private bool PlayAnim = false;
+        //private float tEff = 17;
+        private bool playAnim = false;
         private GameObject a;
         [SerializeField] SkinnedMeshRenderer skinnedMeshRenderer;
         Vector3[] _arrBones;
@@ -40,12 +40,13 @@ namespace Scripts.QuetDiem
         private float tFire = 0f;
         Vector3 localVelocity;
         [SerializeField] AudioSource audioSource;
+ 
 
         void Start()
         {
             audioSource.clip = SoundManager.instance.bruciandoClip;
-            posEnd = GameObject.Find("a").transform;
-            a = GameObject.Find("a");
+            posEnd = GameObject.Find("posFall").transform;
+            a = GameObject.Find("posFall");
             _hopdiem = GameObject.Find("ScatolaFiammiferi").GetComponent<HopDiem>();
 
             targetLook = _hopdiem.transform.position + new Vector3(0,0.5f,0);
@@ -92,7 +93,7 @@ namespace Scripts.QuetDiem
 
         private void _hopdiem_OnFire(object sender, System.EventArgs e)
         {
-            if (!PlayAnim)
+            if (!playAnim)
             {
                 audioSource.PlayOneShot(SoundManager.instance.accesoClip.GetRandomClip());
                 _effExcuted.gameObject.SetActive(true);
@@ -102,21 +103,17 @@ namespace Scripts.QuetDiem
                 StartCoroutine(PlayAnimFire());
                 countBones = skinnedMeshRenderer.bones.Length-1;
                 _effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y, 0);
-                PlayAnim = true;
+                playAnim = true;
             }
-            if (tEff >= 0 )
-            {
                 tFire += Time.deltaTime;
-                if (tFire > 0.5f && countBones >= 0 && tEff > 0)
+                if (tFire > 0.5f && countBones >= 0)
                 {
                     //_effExcuted.transform.localPosition = new Vector3(0, _arrBones[countBones].y ,0);
                     _effExcuted.transform.DOLocalMove(new Vector3(0, _arrBones[countBones].y, 0),0.5f);
                     _light.transform.localPosition = _effExcuted.transform.localPosition + new Vector3(0,0,-1);
                     tFire = 0f;
                     countBones--;
-                    tEff--;
                 }
-            }
             if (countBones == 0)
             {      
                 if(audioSource.isPlaying)
@@ -133,6 +130,7 @@ namespace Scripts.QuetDiem
             _light.gameObject.SetActive(false);
             transform.DOMove(posEnd.position, 1f).SetEase(Ease.Linear); //di chuyen
             _hopdiem.setActiveFire(false); //dat bool lua bang false
+            _hopdiem.SoundFriction = true;
             yield return new WaitForSeconds(2f);
             Destroy(gameObject);
 

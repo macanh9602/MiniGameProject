@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: c4e04a093a4d108468341d32a7306711
+  - enabled: 1
+    path: Assets/Scenes/Gears.unity
+    guid: 325f009c9f815254abc9569778c01bd0
+  - enabled: 1
+    path: Assets/Scenes/QueDiem.unity
+    guid: 14a8c6cf9e7e43946b607825d57efe95
+  - enabled: 1
     path: Assets/Scenes/Rubic.unity
     guid: b0f63902c5ed16345a97073bf79f6f58
   m_configObjects: {}

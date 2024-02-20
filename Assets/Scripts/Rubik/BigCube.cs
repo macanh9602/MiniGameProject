@@ -17,7 +17,7 @@ namespace Scripts.Rubik
         [SerializeField] GameObject[] _startCube;
         [SerializeField] bool currentlyRotate = false;
         [SerializeField] SoundManager soundManager;
-        private float rotationTime = 0.1f;
+        private float rotationTime = 0.3f;
         private AudioSource audioSource;
         [SerializeField] bool IsScrambling = false;
         [SerializeField] bool isWin = true;

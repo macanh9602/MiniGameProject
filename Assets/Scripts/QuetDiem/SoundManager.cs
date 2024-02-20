@@ -23,9 +23,9 @@ namespace Scripts.QuetDiem{
         [SerializeField] AudioClip _sfregato; //tieng quet diem vao hop ma chua chay
         [SerializeField] ClipArray _acceso; //[] tieng quet diem thanh cong
 
-        public AudioClip bruciandoClip => _bruciando;
-        public AudioClip sfregatoClip => _sfregato;
-        public ClipArray accesoClip => _acceso;
+        public AudioClip bruciandoClip => _bruciando; //tieng diem chay
+        public AudioClip sfregatoClip => _sfregato; // quet chua chay
+        public ClipArray accesoClip => _acceso; // tieng quet thanh cong
 
         private void Awake()
         {
