@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 namespace Scripts.BanhRang{
-    
+
     public class Handle : MonoBehaviour
     {
         [SerializeField] bool isRotating = false;
@@ -16,10 +16,13 @@ namespace Scripts.BanhRang{
         private Vector3 lastInput;
         private Vector3 v_deltaInput;
         [SerializeField] private float stopTime;
-        private bool isMoving  = false;
+        private bool isMoving = false;
         public bool IsMoving => isMoving;
-        public bool IsRotating => isRotating;
-        public float RotateSpeed => rotateSpeed;
+        public bool IsRotating { get => isRotating; set => isRotating = value; }
+        public float RotateSpeed { get => rotateSpeed; set => rotateSpeed = value; }
+
+        private bool isTouchHandle = false;
+        public bool IsTouchHandle => isTouchHandle;
         // Update is called once per frame
         private void Update()
         {
@@ -72,12 +75,15 @@ namespace Scripts.BanhRang{
         private void OnMouseDown()
         {
             isRotating = true;
+            
+            isTouchHandle = true;
             rotateSpeed = 0.0f;
         }
 
         private void OnMouseUp()
         {
             isRotating = false;
+            isTouchHandle = false;
         }
     }
     
