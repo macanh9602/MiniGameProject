@@ -30,7 +30,7 @@ namespace Scripts.BanhRang
         // Update is called once per frame
         void Update()
         {
-            if (handle.IsMoving)
+            if (handle.IsRotating)
             {
                 for (int i = 0; i < arrBigGear.Length; i++)
                 {
@@ -64,7 +64,7 @@ namespace Scripts.BanhRang
             if (speed != 0)
             {
                 float speed1 = Mathf.Max(speed, 0.5f);
-                float playInterval = (1.0f / speed1 )* 0.3f;
+                float playInterval = (1.0f / speed1 )* 0.27f;
                 
                 if (Time.time >= lastPlayTime + playInterval)
                 {
